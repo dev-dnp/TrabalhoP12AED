@@ -1,0 +1,20 @@
+bin/
+obj/
+.vs/
+## Target directories
+[Bb]in/
+[Ob]j/
+[Ll]og/
+[Tt]est[Rr]esults/
+
+## IDEs and Editors
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## OS generated files
+.DS_Store
+Thumbs.db
