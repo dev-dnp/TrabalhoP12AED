@@ -27,6 +27,11 @@ namespace TrabalhoP12AED.logica
             Raiz = InserirRecursao(valor, Raiz);
         }
 
+        public void Percorrer()
+        {
+            EmOrdem(Raiz);
+        }
+
         private No InserirRecursao(char valor, No no)
         {
             if(no == null)
@@ -45,6 +50,33 @@ namespace TrabalhoP12AED.logica
 
 
             return no;
+        }
+
+        private void PreOrdem(No no)
+        {
+            if (no == null) return;
+
+            Console.Write(no.Valor + ", ");
+            PreOrdem(no.Esquerdo);
+            PreOrdem(no.Direito);
+        }
+
+        private void EmOrdem(No no)
+        {
+            if (no == null) return;
+
+            EmOrdem(no.Esquerdo);
+            Console.Write(no.Valor + ", ");
+            EmOrdem(no.Direito);
+        }
+
+        private static void PosOrdem(No no)
+        {
+            if (no == null) return;
+
+            PosOrdem(no.Esquerdo);
+            PosOrdem(no.Direito);
+            Console.Write(no.Valor + ", ");
         }
 
     }
