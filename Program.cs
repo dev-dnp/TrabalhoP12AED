@@ -6,26 +6,10 @@ class Program
     {
 
         
-        MenuPrincipal();
+        MenuPrincipal.Executar();
+        
 
-
-        // Console.Clear();
-        // ArvoreDeBuscaBinaria raiz = new ArvoreDeBuscaBinaria();
-
-        // raiz.Inserir('b');
-        // raiz.Inserir('d');
-        // raiz.Inserir('g');
-        // raiz.Inserir('a');
-        // raiz.Inserir('f');
-        // raiz.Inserir('c');
-        // raiz.Inserir('e');
-
-
-        // Console.WriteLine();
-
-        // raiz.Percorrer();
-
-        // Console.WriteLine();
 
     }
+
 }

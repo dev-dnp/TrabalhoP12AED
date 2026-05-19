@@ -17,3 +17,21 @@
         // raiz.Percorrer();
 
         // Console.WriteLine();
+
+
+        Console.WriteLine("╔══════════════════════════════════════════════════╗ ");
+        Console.WriteLine("║              TRABALHO PRÁTICO N.                 ║ ");
+        Console.WriteLine("║                      v1.0.0                      ║ ");
+        Console.WriteLine("╠══════════════════════════════════════════════════╣ ");
+        Console.WriteLine("║                                                  ║");
+        Console.WriteLine("║       [1] Árvores Binárias                       ║ ");
+        Console.WriteLine("║       [2] Média Geométrica                       ║ ");
+        Console.WriteLine("║       [3] Vector-linha                           ║ ");
+        Console.WriteLine("║       [4] Árvore Binário de Busca                ║ ");
+        Console.WriteLine("║       [4] Serviço Militar                        ║ ");
+        Console.WriteLine("║                                                  ║");
+        Console.WriteLine("╠══════════════════════════════════════════════════╣ ");
+        Console.WriteLine("║    Use os números do teclado para selecionar.    ║ ");
+        Console.WriteLine("╚══════════════════════════════════════════════════╝ ");
+        Console.WriteLine("");
+        Console.WriteLine(" Escolha uma opção: █");
