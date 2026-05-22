@@ -1,32 +1,31 @@
-using TrabalhoP12AED;
 using TrabalhoP12AED.estrutura;
 using TrabalhoP12AED.implementacao;
 
 namespace TrabalhoP12AED.exercicios
 {
 
-    public class ArvoresBinarias
+    public class Exercicio1ArvoresBinarias
     {
         public static void Executar()
         {
             Console.Clear();
 
             // Nivel 0
-            var raiz = new No<string>("a");
+            var raiz = new No('a');
 
             // Nivel 1
 
-            raiz.Esquerdo = new No<string>("b");
-            raiz.Direito = new No<string>("c");
+            raiz.Esquerdo = new No('b');
+            raiz.Direito = new No('c');
 
             // Nivel 2
-            raiz.Esquerdo.Esquerdo = new No<string>("d");
-            raiz.Esquerdo.Direito = new No<string>("e");
+            raiz.Esquerdo.Esquerdo = new No('d');
+            raiz.Esquerdo.Direito = new No('e');
 
-            raiz.Direito.Direito = new No<string>("f");
+            raiz.Direito.Direito = new No('f');
 
             // Nivel 3
-            raiz.Direito.Direito.Esquerdo = new No<string>("g");
+            raiz.Direito.Direito.Esquerdo = new No('g');
             
 
             ExibirArvore();
@@ -76,7 +75,7 @@ namespace TrabalhoP12AED.exercicios
 
         }
 
-        private static void ExibirPreOrdem(No<string> raiz)
+        private static void ExibirPreOrdem(No raiz)
         {
             Console.Clear();
 
@@ -96,7 +95,7 @@ namespace TrabalhoP12AED.exercicios
             MensagemParaVoltar();  
         }
 
-        private static void ExibirEmOrdem(No<string> raiz)
+        private static void ExibirEmOrdem(No raiz)
         {
             Console.Clear();
             
@@ -116,7 +115,7 @@ namespace TrabalhoP12AED.exercicios
             MensagemParaVoltar(); 
         }
 
-        private static void ExibirPosOrdem(No<string> raiz)
+        private static void ExibirPosOrdem(No raiz)
         {
             Console.Clear();
             
@@ -136,7 +135,7 @@ namespace TrabalhoP12AED.exercicios
             MensagemParaVoltar(); 
         }
 
-        private static void ExibirTodosPercusos(No<string> raiz)
+        private static void ExibirTodosPercusos(No raiz)
         {
             Console.Clear();
             ExibirArvore();

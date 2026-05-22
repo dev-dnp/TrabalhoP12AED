@@ -1,70 +1,70 @@
 
-// using TrabalhoP12AED.estrutura;
-// namespace TrabalhoP12AED.logica
-// {
+using TrabalhoP12AED.estrutura;
+
+namespace TrabalhoP12AED.implementacao;
     
+    public class ArvoreDeBuscaBinaria
+    {
+        public No Raiz = null;
 
-//     public class ArvoreDeBuscaBinaria
-//     {
-//         private No Raiz = null;
+        public ArvoreDeBuscaBinaria()
+        {
+            Raiz = null;
+        }
+
+        public void Inserir(char valor)
+        {
+            Raiz = InserirRecursao(valor, Raiz);
+        }
+
+        public No Buscar(char valor)
+        {
+            return BuscarRec(valor, Raiz);
+        }
+
+        private static No InserirRecursao(char valor, No raiz)
+        {
+            if(raiz == null)
+                return new No (valor);
 
 
-//         public void Inserir(char valor)
-//         {
-//             Raiz = InserirRecursao(valor, Raiz);
-//         }
+            if (valor < raiz.Valor)
+            {
+                raiz.Esquerdo = InserirRecursao(valor, raiz.Esquerdo);
+            }
+            else if(valor > raiz.Valor)
+            {
+                raiz.Direito = InserirRecursao(valor, raiz.Direito);
+            }
 
-//         public void Percorrer()
-//         {
-//             EmOrdem(Raiz);
-//         }
+            return raiz;
+        }
 
-//         private static No InserirRecursao(char valor, No no)
-//         {
-//             if(no == null)
-//                 return new No(valor);
+        public static No BuscarRec(char valor, No no)
+        {
+            if(no == null || valor == no.Valor)
+            {
+                return no;
+            }
+            else if(valor < no.Valor)
+            {
+                return BuscarRec(valor, no.Esquerdo);
+            }
+            else
+            {
+                return BuscarRec(valor, no.Direito);
+            }
 
+        }
 
+        public void ExibirEmOrdem(No raiz)
+        {
+            if (raiz != null)
+            {
+                ExibirEmOrdem(raiz.Esquerdo);
+                Console.Write(raiz.Valor + " ");
+                ExibirEmOrdem(raiz.Direito);
+            }
+        }
 
-//             if (valor < no.Valor)
-//             {
-//                 no.Esquerdo = InserirRecursao(valor, no.Esquerdo);
-//             }
-//             else if(valor > no.Valor)
-//             {
-//                 no.Direito = InserirRecursao(valor, no.Direito);
-//             }
-
-//             return no;
-//         }
-
-//         private void PreOrdem(No no)
-//         {
-//             if (no == null) return;
-
-//             Console.Write(no.Valor + ", ");
-//             PreOrdem(no.Esquerdo);
-//             PreOrdem(no.Direito);
-//         }
-
-//         private void EmOrdem(No no)
-//         {
-//             if (no == null) return;
-
-//             EmOrdem(no.Esquerdo);
-//             Console.Write(no.Valor + ", ");
-//             EmOrdem(no.Direito);
-//         }
-
-//         private static void PosOrdem(No no)
-//         {
-//             if (no == null) return;
-
-//             PosOrdem(no.Esquerdo);
-//             PosOrdem(no.Direito);
-//             Console.Write(no.Valor + ", ");
-//         }
-
-//     }
-
-// }
+    }

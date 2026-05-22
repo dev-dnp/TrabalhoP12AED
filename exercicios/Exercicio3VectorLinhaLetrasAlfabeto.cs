@@ -3,7 +3,7 @@ using TrabalhoP12AED.implementacao;
 
 namespace TrabalhoP12AED.exercicios
 {
-    public class VectorLinhaLetrasAlfabeto
+    public class Exercicio3VectorLinha
     {
         public static void Executar()
         {
@@ -63,7 +63,7 @@ namespace TrabalhoP12AED.exercicios
             Console.WriteLine(letras);
             Console.WriteLine();
 
-            ControleConfirmacao();
+            MensagemParaVoltar();
         }
 
         private static void ExibirLetrasMinisculas()
@@ -82,10 +82,10 @@ namespace TrabalhoP12AED.exercicios
             Console.WriteLine(letras);
             Console.WriteLine();
 
-            ControleConfirmacao();
+            MensagemParaVoltar();
         }
 
-        private static void ControleConfirmacao()
+        private static void MensagemParaVoltar()
         {
             Console.WriteLine("\nPrima qualquer tecla para voltar");
             Console.ReadKey();

@@ -35,3 +35,85 @@
         Console.WriteLine("╚══════════════════════════════════════════════════╝ ");
         Console.WriteLine("");
         Console.WriteLine(" Escolha uma opção: █");
+
+
+
+
+
+// using TrabalhoP12AED.estrutura;
+// using TrabalhoP12AED.implementacao;
+
+// namespace TrabalhoP12AED.exercicios;
+
+// public class Exercicio4ArvoreDeBuscaBinaria()
+// {
+    
+//     public static void Executar()
+//     {
+            
+//        ArvoreDeBuscaBinaria arvore = new ArvoreDeBuscaBinaria();
+
+//             /* * Para a árvore não virar uma linha reta (de 'a' até 'g'),
+//              * vamos inseri-los de forma balanceada. 
+//              * O elemento do meio 'd' será a raiz.
+//              */
+            
+
+//             char[] elementos = { 'd', 'b', 'f', 'a', 'c', 'e', 'g' };
+
+//             foreach (char letra in elementos)
+//             {
+//                 arvore.Inserir(letra);
+//             }
+
+//             Console.WriteLine("--- Árvore Binária Ordenada Criada ---");
+//             Console.Write("Elementos na árvore (Em-Ordem): ");
+//             arvore.ExibirEmOrdem(arvore.Raiz);
+//             Console.WriteLine("\n-------------------------------------\n");
+
+//             bool continuar = true;
+//             while (continuar)
+//             {
+//                 Console.Write("Digite uma letra de 'a' a 'z' para pesquisar (ou 'sair' para encerrar): ");
+//                 string entrada = Console.ReadLine().ToLower();
+
+//                 if (entrada == "sair")
+//                 {
+//                     continuar = false;
+//                     break;
+//                 }
+
+//                 if (string.IsNullOrEmpty(entrada) || entrada.Length > 1 || entrada[0] < 'a' || entrada[0] > 'z')
+//                 {
+//                     Console.WriteLine("Entrada inválida! Por favor, insira apenas uma letra de 'a' até 'z'.\n");
+//                     continue;
+//                 }
+
+//                 char letraPesquisa = entrada[0];
+                
+//                 // Realiza a busca na árvore
+//                 No resultado = arvore.Buscar(letraPesquisa);
+
+//                 if (resultado != null)
+//                 {
+//                     // Em C#, a referência do objeto funciona como o endereço lógico.
+//                     // Podemos usar o HashCode para simular a visualização desse endereço único.
+//                     int enderecoSimulado = resultado.GetHashCode();
+//                     Console.ForegroundColor = ConsoleColor.Green;
+//                     Console.WriteLine($"Sucesso: A letra '{resultado.Valor}' foi encontrada!");
+//                     Console.WriteLine($"Endereço/Referência do nó: 0x{enderecoSimulado:X}\n");
+//                     Console.ResetColor();
+//                 }
+//                 else
+//                 {
+//                     Console.ForegroundColor = ConsoleColor.Red;
+//                     Console.WriteLine($"Informação: A letra '{letraPesquisa}' NÃO pertence à árvore ordenada (a-g).\n");
+//                     Console.ResetColor();
+//                 }
+//             }
+
+//             Console.WriteLine("Programa encerrado.");
+//     }
+   
+
+// }

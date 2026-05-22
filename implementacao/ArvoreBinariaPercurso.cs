@@ -5,11 +5,11 @@ namespace TrabalhoP12AED.implementacao
 
     public class ArvoreBinariaPercurso
     {
-        public static List<string> ListaAcumulativa = new List<string>();
+        public static List<char> ListaAcumulativa = new List<char>();
 
         // Percorrer uma árvore: PRE-ORDEM
 
-        public static void PreOrdem(No<string> no)
+        public static void PreOrdem(No no)
         {
             if (no == null) return;
 
@@ -20,7 +20,7 @@ namespace TrabalhoP12AED.implementacao
 
         // Percorrer uma árvore: ORDEM-ORDEM
 
-        public static void EmOrdem(No<string> no)
+        public static void EmOrdem(No no)
         {
             if (no == null) return;
 
@@ -31,7 +31,7 @@ namespace TrabalhoP12AED.implementacao
 
         // Percorrer uma árvore: POS-ORDEM
 
-        public static void PosOrdem(No<string> no)
+        public static void PosOrdem(No no)
         {
             if (no == null) return;
 
@@ -44,7 +44,7 @@ namespace TrabalhoP12AED.implementacao
         public static string ExibirPercurso()
         {
 
-            var resultado = new List<string>(ListaAcumulativa);
+            var resultado = new List<char>(ListaAcumulativa);
 
             ListaAcumulativa.Clear();
 
