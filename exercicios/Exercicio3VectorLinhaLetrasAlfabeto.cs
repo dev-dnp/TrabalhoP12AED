@@ -19,7 +19,7 @@ namespace TrabalhoP12AED.exercicios
 
             Console.WriteLine("1 - Maiúsculas");
             Console.WriteLine("2 - Minuscúlas");
-            Console.WriteLine("3 - Sair");
+            Console.WriteLine("0 - Sair");
 
             Console.Write("\n\nResposta: ");
 
@@ -33,7 +33,7 @@ namespace TrabalhoP12AED.exercicios
                 case "2":
                     ExibirLetrasMinisculas();
                     break;
-                case "3":
+                case "0":
                     MenuPrincipal.Executar();
                     break;
                 default:
