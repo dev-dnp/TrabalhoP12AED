@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using TrabalhoP12AED.estrutura;
 
 namespace TrabalhoP12AED.exercicios;
 
@@ -7,121 +8,120 @@ public class Exercicio2MediaGeometrica()
     
     public static void Executar()
     {
-        Console.Clear();
-        ExibirCabecalho();
-
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("\n\tESCOLHA UMA OPÇÃO:\n");
-        Console.ResetColor();
-
-        Console.WriteLine("\t1 - Calcular");
-        Console.WriteLine("\t2 - Ajuda");
-        Console.WriteLine("\t0 - Voltar");
-
-        Console.Write("\n\n\tResposta: ");
-
-        string opcao = Console.ReadLine().Trim();
-
-        switch(opcao)
-        {
-            case "1":
-                break;
-            case "2":
-                ExibirMenuDeAjuda();
-                break;
-            case "0":
-                MenuPrincipal.Executar();
-                break;
-            default:
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("\n\tResposta Inválida!");
-                Console.ResetColor();
-                Console.ReadKey();
-                Executar();
-                break;
-        }
-
-        ExibirCabecalho();
-
-
-        // Solicitar o número de anos
-        int n;
-        while (true)
+        while(true)
         {
             ExibirCabecalho();
-            Console.Write("\tInforme o número de anos (N): ");
 
-            if (int.TryParse(Console.ReadLine(), out n) && n > 0)  break;
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\tErro: informe um número inteiro positivo.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n\tESCOLHA UMA OPÇÃO:\n");
             Console.ResetColor();
-            Console.ReadKey();
-            Console.Clear();
-        }
 
-        double[] taxas = new double[n];
+            Console.WriteLine("\t1 - Calcular");
+            Console.WriteLine("\t2 - Ajuda");
+            Console.WriteLine("\t0 - Voltar");
 
-        // Coletar as taxas de crescimento anuais
-        Console.WriteLine();
-        Console.WriteLine("\tInforme as taxas de crescimento anual do PIB (em %):");
-        
+            Console.Write("\n\n\tEscolha uma opção: ");
 
-        for (int i = 0; i < n; i++)
-        {
-            while (true)
+            string opcao = Console.ReadLine().Trim();
+
+            switch(opcao)
             {
-                Console.Write($"\tTaxa do ano {i + 1}: ");
-
-                if (double.TryParse(Console.ReadLine(), out taxas[i])) break;
-
-                Console.WriteLine("\tErro: informe um número válido.");
+                case "1":
+                    Calcular();
+                    break;
+                case "2":
+                    ExibirMenuDeAjuda();
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\n\tOpção inválida!");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    break;
             }
+
         }
+    }
 
-        // Calcular o produto acumulado: ∏(1 + taxa_n / 100)
-
-        double produto = 1.0;
-
-        for (int i = 0; i < n; i++)
-        {
-            produto *= (1 + taxas[i] / 100.0);
-        }
-
-        // Calcular a média geométrica: N-ésima raiz do produto - 1
-        double mediaGeometrica = Math.Pow(produto, 1.0 / n) - 1;
-
-
-        Console.Clear();
+    private static void Calcular()
+    {
         ExibirCabecalho();
 
-        // Exibir resultado
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("\n\tRESULTADO\n");
-        Console.ResetColor();
+            // Solicitar o número de anos
+            int n;
+
+            while (true)
+            {
+                ExibirCabecalho();
+
+                Console.Write("\tInforme o número de anos (N): ");
+
+                if (int.TryParse(Console.ReadLine(), out n) && n > 0)  break;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\tErro: informe um número inteiro positivo.");
+                Console.ResetColor();
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+            double[] taxas = new double[n];
+
+            // Coletar as taxas de crescimento anuais
+            Console.WriteLine();
+            Console.WriteLine("\tInforme as taxas de crescimento anual do PIB (em %):");
+            
+
+            for (int i = 0; i < n; i++)
+            {
+                while (true)
+                {
+                    ExibirCabecalho();
+                    Console.Write($"\tTaxa do ano {i + 1}: ");
+
+                    if (double.TryParse(Console.ReadLine(), out taxas[i])) break;
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\tErro: informe um número válido.");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+            }
+
+            // Calcular o produto acumulado: ∏(1 + taxa_n / 100)
+
+            MediaGeometricaCrescimentoPIB MGCrescimentoPIB = new MediaGeometricaCrescimentoPIB(n, taxas);
+            MGCrescimentoPIB.Calcular();
+
+            ExibirCabecalho();
+
+            // Exibir resultado
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("\n\tRESULTADO\n");
+            Console.ResetColor();
 
 
-        Console.WriteLine($"\tNúmero de anos (N)              :  {n}");
-        Console.WriteLine($"\tProduto acumulado               :  {produto:F6}");
-        Console.WriteLine($"\tMédia Geométrica de Crescimento :  {mediaGeometrica * 100:F4}% ao ano");
-        Console.WriteLine(); 
+            Console.WriteLine($"\tNúmero de anos (N)              :  {n}");
+            Console.WriteLine($"\tProduto acumulado               :  {MGCrescimentoPIB.Produto:F6}");
+            Console.WriteLine($"\tMédia Geométrica de Crescimento :  {MGCrescimentoPIB.ValorMediaGeometrica * 100:F4}% ao ano");
+            Console.WriteLine(); 
 
-        // Exibir detalhes por ano
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("\n\tDETALHAMENTO POR ANO\n");
-        Console.ResetColor();
+            // Exibir detalhes por ano
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("\n\tDETALHAMENTO POR ANO\n");
+            Console.ResetColor();
 
 
-        Console.WriteLine($"\t{"Ano",-6} {"Taxa (%)",-12} {"(1 + taxa)",-14}");
-        LinhaSeparadora();
+            Console.WriteLine($"\t{"Ano",-6} {"Taxa (%)",-12} {"(1 + taxa)",-14}");
+            Utilitario.LinhaSeparadora();
 
-        for (int i = 0; i < n; i++)
-        {
-            double fator = 1 + taxas[i] / 100.0;
-            Console.WriteLine($"\t{i + 1,-6} {taxas[i],-12:F2} {fator,-14:F6}");
-        }
+            MGCrescimentoPIB.ExibirDadosDeEntrada();
 
-        MensagemParaVoltar();
+            Utilitario.MensagemParaVoltar();
     }
 
     private static void ExibirCabecalho()
@@ -132,14 +132,9 @@ public class Exercicio2MediaGeometrica()
         Console.WriteLine("\t║  CALCULADORA DE TAXA MÉDIA ANUAL DE CRESCIMENTO DO PIB  ║");
         Console.WriteLine("\t╚═════════════════════════════════════════════════════════╝");
         
-        LinhaSeparadora();
+        Utilitario.LinhaSeparadora();
         Console.ResetColor();
         Console.WriteLine();
-    }
-
-    private static void LinhaSeparadora()
-    {
-        Console.WriteLine("\t..........................................................");
     }
 
     private static void ExibirMenuDeAjuda()
@@ -248,14 +243,9 @@ public class Exercicio2MediaGeometrica()
         ──────────────────────────────────────────────────────────
     ");
 
-        MensagemParaVoltar();
+        Utilitario.MensagemParaVoltar();
         
     }
 
-        private static void MensagemParaVoltar()
-        {
-            Console.Write("\n\n\tPrima qualquer tecla para voltar");
-            Console.ReadKey();
-            Executar();
-        }
+
 }

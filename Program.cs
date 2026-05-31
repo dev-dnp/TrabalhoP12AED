@@ -8,6 +8,7 @@ class Program
     static void Main(string[] args)
     {
       
+        CapaDoProjeto.Exibir();
         MenuPrincipal.Executar(); 
     }
 

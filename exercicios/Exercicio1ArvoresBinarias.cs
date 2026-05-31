@@ -8,70 +8,71 @@ namespace TrabalhoP12AED.exercicios
     {
         public static void Executar()
         {
-            Console.Clear();
-
-            // Nivel 0
-            var raiz = new No('a');
-
-            // Nivel 1
-
-            raiz.Esquerdo = new No('b');
-            raiz.Direito = new No('c');
-
-            // Nivel 2
-            raiz.Esquerdo.Esquerdo = new No('d');
-            raiz.Esquerdo.Direito = new No('e');
-
-            raiz.Direito.Direito = new No('f');
-
-            // Nivel 3
-            raiz.Direito.Direito.Esquerdo = new No('g');
-            
-
-            ExibirCabecalho();
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\tESCOLHA UMA OPÇÃO:\n");
-            Console.ResetColor();
-
-            Console.WriteLine("\t 1 - Percurso Pré-ordem");
-            Console.WriteLine("\t 2 - Percurso Em-ordem");
-            Console.WriteLine("\t 3 - Percurso Pós-ordem");
-            Console.WriteLine("\t 4 - Mostrar todos os Percursos");
-            Console.WriteLine("\t 5 - Ajuda");
-            Console.WriteLine("\t 0 - Sair");
-            
-            Console.Write("\n\n\tResposta: ");
-
-            string opcao = Console.ReadLine().Trim();
-
-            switch(opcao)
+            while(true)
             {
-                case "1":
-                    ExibirPreOrdem(raiz);
-                    break;
-                case "2":
-                    ExibirEmOrdem(raiz);
-                    break;
-                case "3":
-                    ExibirPosOrdem(raiz);
-                    break;
-                case "4":
-                    ExibirTodosPercusos(raiz);
-                    break;
-                case "5":
-                    ExibirMenuDeAjuda();
-                    break;
-                case "0":
-                    MenuPrincipal.Executar();
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\n\tResposta Inválida!");
-                    Console.ResetColor();
-                    Console.ReadKey();
-                    Executar();
-                    break;
+                Console.Clear();
+
+                // Nivel 0
+                var raiz = new No('a');
+
+                // Nivel 1
+
+                raiz.Esquerdo = new No('b');
+                raiz.Direito = new No('c');
+
+                // Nivel 2
+                raiz.Esquerdo.Esquerdo = new No('d');
+                raiz.Esquerdo.Direito = new No('e');
+
+                raiz.Direito.Direito = new No('f');
+
+                // Nivel 3
+                raiz.Direito.Direito.Esquerdo = new No('g');
+                
+
+                ExibirCabecalho();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n\tESCOLHA UMA OPÇÃO:\n");
+                Console.ResetColor();
+
+                Console.WriteLine("\t 1 - Percurso Pré-ordem");
+                Console.WriteLine("\t 2 - Percurso Em-ordem");
+                Console.WriteLine("\t 3 - Percurso Pós-ordem");
+                Console.WriteLine("\t 4 - Mostrar todos os Percursos");
+                Console.WriteLine("\t 5 - Ajuda");
+                Console.WriteLine("\t 0 - Sair");
+                
+                Console.Write("\n\n\tEscolha uma opção: ");
+
+                string opcao = Console.ReadLine().Trim();
+
+                switch(opcao)
+                {
+                    case "1":
+                        ExibirPreOrdem(raiz);
+                        break;
+                    case "2":
+                        ExibirEmOrdem(raiz);
+                        break;
+                    case "3":
+                        ExibirPosOrdem(raiz);
+                        break;
+                    case "4":
+                        ExibirTodosPercusos(raiz);
+                        break;
+                    case "5":
+                        ExibirMenuDeAjuda();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("\n\tOpção inválida!");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                        break;
+                }
             }
 
 
@@ -89,8 +90,8 @@ namespace TrabalhoP12AED.exercicios
             ArvoreBinariaPercurso.PreOrdem(raiz);
             Console.WriteLine("\n\t" + ArvoreBinariaPercurso.ExibirPercurso());
 
-            LinhaSeparadora();
-            MensagemParaVoltar();  
+            Utilitario.LinhaSeparadora();
+            Utilitario.MensagemParaVoltar();  
         }
 
         private static void ExibirEmOrdem(No raiz)
@@ -105,8 +106,8 @@ namespace TrabalhoP12AED.exercicios
             ArvoreBinariaPercurso.EmOrdem(raiz);
             Console.WriteLine("\n\t" + ArvoreBinariaPercurso.ExibirPercurso());
 
-            LinhaSeparadora();
-            MensagemParaVoltar(); 
+            Utilitario.LinhaSeparadora();
+            Utilitario.MensagemParaVoltar(); 
         }
 
         private static void ExibirPosOrdem(No raiz)
@@ -121,8 +122,8 @@ namespace TrabalhoP12AED.exercicios
             ArvoreBinariaPercurso.PosOrdem(raiz);
             Console.WriteLine("\n\t" + ArvoreBinariaPercurso.ExibirPercurso());
 
-            LinhaSeparadora();
-            MensagemParaVoltar();
+            Utilitario.LinhaSeparadora();
+            Utilitario.MensagemParaVoltar();
         }
 
         private static void ExibirTodosPercusos(No raiz)
@@ -163,17 +164,12 @@ namespace TrabalhoP12AED.exercicios
             Console.WriteLine("\t" + ArvoreBinariaPercurso.ExibirPercurso());
             Console.WriteLine("\n");
 
-            LinhaSeparadora();
-            MensagemParaVoltar();
+            Utilitario.LinhaSeparadora();
+            Utilitario.MensagemParaVoltar();
         }
 
 
-        private static void MensagemParaVoltar()
-        {
-            Console.Write("\n\n\tPrima qualquer tecla para voltar");
-            Console.ReadKey();
-            Executar();
-        }
+        
 
         private static void ExibirCabecalho()
         {
@@ -193,7 +189,7 @@ namespace TrabalhoP12AED.exercicios
                                        g
             ");
             
-            LinhaSeparadora();
+            Utilitario.LinhaSeparadora();
             Console.ResetColor();
             Console.WriteLine();
         }
@@ -240,7 +236,7 @@ namespace TrabalhoP12AED.exercicios
             Console.ResetColor();
             Console.Write("visita esquerda, direita e depois a raiz. \n");
 
-            MensagemParaVoltar();
+            Utilitario.MensagemParaVoltar();
             
         }
 
@@ -390,13 +386,10 @@ namespace TrabalhoP12AED.exercicios
             (VÁ ATÉ AO TOPO DA PÁGINA)
             ");
 
-            MensagemParaVoltar();
+            Utilitario.MensagemParaVoltar();
         }
 
-        private static void LinhaSeparadora()
-        {
-            Console.WriteLine("\t..........................................................");
-        }
+        
 
 
     }
