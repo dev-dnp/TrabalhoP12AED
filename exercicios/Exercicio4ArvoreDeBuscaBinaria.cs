@@ -53,22 +53,21 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             arvore.Inserir(letra);
 
 
-        Inicio:;
-        ExibirCabecalho();
-        ExibirEstruturaVisual();
-
-        Console.Write("  Elementos em ordem: ");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        arvore.ExibirEmOrdem(arvore.Raiz);
-        Console.ResetColor();
-        Console.WriteLine("\n");
-
         while (true)
         {
+            ExibirCabecalho();
+            // ExibirEstruturaVisual();
+
+            Console.Write("\tElementos em ordem: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            arvore.ExibirEmOrdem(arvore.Raiz);
+            Console.ResetColor();
+            Console.WriteLine("\n");
+
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("  ┌───────────────────────────────────────────┐");
-            Console.WriteLine("  │  Digite uma letra (a-z) ou '0' para sair  │");
-            Console.Write("  └─► ");
+            Console.WriteLine("\t┌───────────────────────────────────────────┐");
+            Console.WriteLine("\t│  Digite uma letra (a-z) ou '0' para sair  │");
+            Console.Write("\t└─► ");
             Console.ResetColor();
 
             string entrada = Console.ReadLine()?.Trim().ToLower();
@@ -79,11 +78,10 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             if (string.IsNullOrEmpty(entrada) || entrada.Length > 1 || entrada[0] < 'a' || entrada[0] > 'z')
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("  ⚠  Entrada inválida! Digite apenas uma letra de 'a' até 'z'.\n");
+                Console.Write("\tEntrada inválida! Digite apenas uma letra de 'a' até 'z'");
                 Console.ResetColor();
                 Console.ReadKey();
-                Console.Clear();
-                goto Inicio;
+                continue;
             }
 
             char letraPesquisa = entrada[0];
@@ -102,15 +100,17 @@ public class Exercicio4ArvoreDeBuscaBinaria()
         Console.WriteLine("\t║               ÁRVORE BINÁRIA DE BUSCA (a-g)             ║");
         Console.WriteLine("\t╚═════════════════════════════════════════════════════════╝");
 
-            Console.WriteLine(@"
-                                    a
-                                  /   \
-                                 b     c
-                                / \     \
-                               d   e     f
-                                        /
-                                       g
-            ");
+        Console.WriteLine(@"
+                Estrutura da árvore:
+            
+                       [d]             ← Nível 0 (raíz)
+                      /   \          
+                    [b]    [f]         ← Nível 1
+                   /  \    /  \      
+                 [a]  [c] [e]  [g]     ← Nível 2
+        ");
+        Console.ResetColor();
+        Console.WriteLine();
             
         Utilitario.LinhaSeparadora();
         Console.ResetColor();
@@ -165,14 +165,17 @@ public class Exercicio4ArvoreDeBuscaBinaria()
     {
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(@"
-                 Estrutura da árvore:
-
-                           [d]          ← raiz (nível 0)
-                          /   \
-                        [b]   [f]        ← nível 1
-                       /  \ /  \
-                     [a][c][e][g]        ← nível 2
+                Estrutura da árvore:
+            
+                       [d]             ← Nível 0 (raíz)
+                      /   \          
+                    [b]    [f]         ← Nível 1
+                   /  \    /  \      
+                 [a]  [c] [e]  [g]     ← Nível 2
         ");
+
+
+        
         Console.ResetColor();
         Console.WriteLine();
     }
@@ -184,9 +187,9 @@ public class Exercicio4ArvoreDeBuscaBinaria()
     private static void ExibirBusca(ArvoreDeBuscaBinaria arvore, char letra)
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"  🔍 Buscando '{letra}'...");
+        Console.WriteLine($"\t🔍 Buscando '{letra}'...");
         Console.ResetColor();
-        Console.WriteLine("  " + new string('─', 38));
+        Console.WriteLine("\t" + new string('─', 60));
 
         No atual = arvore.Raiz;
         int nivel = 0;
@@ -200,7 +203,7 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             if (letra == atual.Valor)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"  Nível {nivel}: [{atual.Valor}]  ✔ encontrado!");
+                Console.WriteLine($"\tNível {nivel}: [{atual.Valor}]  ✔ encontrado!");
                 Console.ResetColor();
                 encontrado = true;
                 break;
@@ -208,7 +211,7 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             else if (letra < atual.Valor)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"  Nível {nivel}: [{atual.Valor}]  '{letra}' < '{atual.Valor}' → esquerda");
+                Console.WriteLine($"\tNível {nivel}: [{atual.Valor}]  '{letra}' < '{atual.Valor}' → esquerda");
                 Console.ResetColor();
                 caminho += " → ";
                 atual = atual.Esquerdo;
@@ -216,7 +219,7 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"  Nível {nivel}: [{atual.Valor}]  '{letra}' > '{atual.Valor}' → direita");
+                Console.WriteLine($"\tNível {nivel}: [{atual.Valor}]  '{letra}' > '{atual.Valor}' → direita");
                 Console.ResetColor();
                 caminho += " → ";
                 atual = atual.Direito;
@@ -225,23 +228,29 @@ public class Exercicio4ArvoreDeBuscaBinaria()
             nivel++;
         }
 
-        Console.WriteLine("  " + new string('─', 38));
+        Console.WriteLine("\t" + new string('─', 60));
 
         if (encontrado)
         {
-            int endereco = atual!.GetHashCode();
+            int endereco = atual.GetHashCode();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"  ✔  Letra '{letra}' ENCONTRADA no nível {nivel}!");
-            Console.WriteLine($"  📍 Endereço do nó : 0x{endereco:X}");
+            Console.WriteLine($"\t✅ Letra '{letra}' ENCONTRADA no nível {nivel}!");
+            Console.WriteLine($"\t📍 Endereço do nó na memória do computador em hexadecimal:");
+            Console.WriteLine($"\t   0x{endereco:X}");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"  🗺  Caminho        : {caminho}");
+            Console.WriteLine($"\t🗺  Caminho: {caminho}");
+            Console.Write("\n\t");
             Console.ResetColor();
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"  ✘  Letra '{letra}' NÃO existe na árvore (a-g).");
+            Console.Write($"\t✘  Letra '{letra}' NÃO existe na árvore (a-g).");
+            Console.Write("\n\n\t");
             Console.ResetColor();
         }
+
+        Console.Write("Prima qualquer tecla para continuar");
+        Console.ReadKey();
     }
 }
