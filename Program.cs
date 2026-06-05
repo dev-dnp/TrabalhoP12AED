@@ -1,6 +1,4 @@
-﻿// using TrabalhoP12AED.estrutura;
-// using TrabalhoP12AED.implementacao;
-
+﻿using TrabalhoP12AED.implementacao;
 namespace TrabalhoP12AED;
 
 class Program
@@ -9,7 +7,7 @@ class Program
     {
       
         CapaDoProjeto.Exibir();
-        MenuPrincipal.Executar(); 
+        MenuPrincipal.Executar();
     }
 
 }

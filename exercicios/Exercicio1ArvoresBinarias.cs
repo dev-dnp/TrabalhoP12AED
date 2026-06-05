@@ -12,22 +12,8 @@ namespace TrabalhoP12AED.exercicios
             {
                 Console.Clear();
 
-                // Nivel 0
-                var raiz = new No('a');
 
-                // Nivel 1
-
-                raiz.Esquerdo = new No('b');
-                raiz.Direito = new No('c');
-
-                // Nivel 2
-                raiz.Esquerdo.Esquerdo = new No('d');
-                raiz.Esquerdo.Direito = new No('e');
-
-                raiz.Direito.Direito = new No('f');
-
-                // Nivel 3
-                raiz.Direito.Direito.Esquerdo = new No('g');
+                var arvore = new ArvoreBinariaPercurso();
                 
 
                 ExibirCabecalho();
@@ -50,16 +36,16 @@ namespace TrabalhoP12AED.exercicios
                 switch(opcao)
                 {
                     case "1":
-                        ExibirPreOrdem(raiz);
+                        ExibirPreOrdem(arvore.Raiz);
                         break;
                     case "2":
-                        ExibirEmOrdem(raiz);
+                        ExibirEmOrdem(arvore.Raiz);
                         break;
                     case "3":
-                        ExibirPosOrdem(raiz);
+                        ExibirPosOrdem(arvore.Raiz);
                         break;
                     case "4":
-                        ExibirTodosPercusos(raiz);
+                        ExibirTodosPercusos(arvore.Raiz);
                         break;
                     case "5":
                         ExibirMenuDeAjuda();

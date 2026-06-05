@@ -117,3 +117,618 @@
    
 
 // }
+
+
+using System;
+using System.Collections.Generic;
+
+namespace ServicoMilitar
+{
+    // ═══════════════════════════════════════════════════════════
+    //  ENUMERAÇÕES
+    // ═══════════════════════════════════════════════════════════
+
+    enum Sexo { Masculino = 1, Feminino}
+
+    enum CategoriasSaude
+    {
+        // Física
+        SemLimitacoes,
+        ProblemaVisao,
+        ProblemaAudicao,
+        DoencaCronica,
+        DeficienciaMotora,
+        IMCForaLimites,
+        // Mental
+        TranstornoMentalGrave,
+        DependenciaSubstancias,
+        // Temporária (Art. 51.º)
+        DoencaEmTratamento,
+        RecuperacaoCirurgica,
+        FracturaConsolidacao
+    }
+
+    enum ClassificacaoSaude
+    {
+        Apto,
+        InaptoTemporario,   // Art. 51.º — adiamento médico
+        InaптоPermanente    // Art. 48.º — isenção total
+    }
+
+    enum Ocupacao
+    {
+        Nenhuma,
+        EstudanteEnsinoSuperior,
+        ProfessorAtivo
+    }
+
+    enum Resultado
+    {
+        AptoCumprimentoObrigatorio,
+        AptoVoluntario,
+        AptoReserva,
+        AdiamentoEstudante,
+        AdiamentoProfessor,
+        AdiamentoMedicoTemporario,  // Art. 51.º
+        IsentoSaudePermanente,       // Art. 48.º
+        ForaDaIdadeMilitar
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  CLASSE PESSOA
+    // ═══════════════════════════════════════════════════════════
+
+    class Pessoa
+    {
+        public string           Nome               { get; set; }
+        public Sexo             Sexo               { get; set; }
+        public int              Idade              { get; set; }
+        public CategoriasSaude  CategoriaSaude     { get; set; }
+        public ClassificacaoSaude ClassificacaoSaude { get; set; }
+        public Ocupacao         Ocupacao           { get; set; }
+        public Resultado        Resultado          { get; set; }
+        public string           Descricao          { get; set; }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  PROGRAMA PRINCIPAL
+    // ═══════════════════════════════════════════════════════════
+
+    class Program
+    {
+        // ── Utilitários de cor ────────────────────────────────
+        static void Escrever(string txt, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            Console.Write(txt);
+            Console.ResetColor();
+        }
+        static void EscreverLinha(string txt, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            Console.WriteLine(txt);
+            Console.ResetColor();
+        }
+        static void Separador(char c = '═', int n = 65)
+            => EscreverLinha(new string(c, n), ConsoleColor.DarkCyan);
+
+        // ── Cabeçalho ─────────────────────────────────────────
+        static void Cabecalho()
+        {
+            Console.Clear();
+            Separador();
+            EscreverLinha("   SISTEMA DE AVALIAÇÃO — SERVIÇO MILITAR OBRIGATÓRIO", ConsoleColor.Cyan);
+            EscreverLinha("         República de Angola  |  Lei n.º 1/93 de 26 de Março", ConsoleColor.DarkGray);
+            Separador();
+            Console.WriteLine();
+        }
+
+        // ── Leitura segura de inteiro ──────────────────────────
+        static int LerInt(string prompt, int min, int max)
+        {
+            int v;
+            while (true)
+            {
+                Escrever(prompt, ConsoleColor.White);
+                if (int.TryParse(Console.ReadLine()?.Trim(), out v) && v >= min && v <= max)
+                    return v;
+                EscreverLinha($"  ✗ Valor inválido. Introduza um número entre {min} e {max}.", ConsoleColor.Red);
+            }
+        }
+
+        // ── Classificar saúde a partir da categoria ────────────
+        static ClassificacaoSaude ClassificarSaude(CategoriasSaude cat)
+        {
+            return cat switch
+            {
+                // Condições sem limitações
+                CategoriasSaude.SemLimitacoes
+                    => ClassificacaoSaude.Apto,
+
+                // Condições temporárias — Art. 51.º
+                CategoriasSaude.DoencaEmTratamento   or
+                CategoriasSaude.RecuperacaoCirurgica or
+                CategoriasSaude.FracturaConsolidacao
+                    => ClassificacaoSaude.InaptoTemporario,
+
+                // Condições permanentes — Art. 48.º
+                CategoriasSaude.ProblemaVisao         or
+                CategoriasSaude.ProblemaAudicao       or
+                CategoriasSaude.DoencaCronica         or
+                CategoriasSaude.DeficienciaMotora     or
+                CategoriasSaude.IMCForaLimites        or
+                CategoriasSaude.TranstornoMentalGrave or
+                CategoriasSaude.DependenciaSubstancias
+                    => ClassificacaoSaude.InaптоPermanente,
+
+                _ => ClassificacaoSaude.Apto
+            };
+        }
+
+        // ── Recolha de dados ───────────────────────────────────
+        static Pessoa RecolherDados(int num, int total)
+        {
+            var p = new Pessoa();
+
+            EscreverLinha($"\n  ┌─ Pessoa {num} de {total} ─────────────────────────────────────┐", ConsoleColor.Yellow);
+            Console.WriteLine();
+
+            // Nome
+            Escrever("  Nome                    : ", ConsoleColor.White);
+            p.Nome = Console.ReadLine()?.Trim();
+            while (string.IsNullOrEmpty(p.Nome))
+            {
+                EscreverLinha("  ✗ Nome não pode estar vazio.", ConsoleColor.Red);
+                Escrever("  Nome                    : ", ConsoleColor.White);
+                p.Nome = Console.ReadLine()?.Trim();
+            }
+
+            // Sexo
+            Console.WriteLine();
+            EscreverLinha("  Sexo:", ConsoleColor.White);
+            EscreverLinha("    1 - Masculino", ConsoleColor.Gray);
+            EscreverLinha("    2 - Feminino",  ConsoleColor.Gray);
+            p.Sexo = LerInt("  Opção                   : ", 1, 2) == 1
+                     ? Sexo.Masculino : Sexo.Feminino;
+
+            // Idade
+            Console.WriteLine();
+            p.Idade = LerInt("  Idade (anos)            : ", 1, 120);
+
+            // ── Saúde ──────────────────────────────────────────
+            Console.WriteLine();
+            EscreverLinha("  ── Estado de Saúde ──────────────────────────────────", ConsoleColor.DarkCyan);
+            Console.WriteLine();
+
+            EscreverLinha("  CONDIÇÃO FÍSICA:", ConsoleColor.DarkYellow);
+            EscreverLinha("    1 - Sem limitações (totalmente saudável)", ConsoleColor.Gray);
+            EscreverLinha("    2 - Problema de visão (cegueira / daltonismo grave)", ConsoleColor.Gray);
+            EscreverLinha("    3 - Problema de audição (surdez parcial ou total)", ConsoleColor.Gray);
+            EscreverLinha("    4 - Doença crónica (diabetes, epilepsia, hipertensão grave...)", ConsoleColor.Gray);
+            EscreverLinha("    5 - Deficiência motora (amputação, paralisia...)", ConsoleColor.Gray);
+            EscreverLinha("    6 - IMC fora dos limites militares (obesidade grave / desnutrição)", ConsoleColor.Gray);
+            Console.WriteLine();
+            EscreverLinha("  CONDIÇÃO MENTAL:", ConsoleColor.DarkYellow);
+            EscreverLinha("    7 - Transtorno mental grave (psicose, esquizofrenia...)", ConsoleColor.Gray);
+            EscreverLinha("    8 - Dependência de substâncias (drogas / álcool)", ConsoleColor.Gray);
+            Console.WriteLine();
+            EscreverLinha("  CONDIÇÃO TEMPORÁRIA (Art. 51.º):", ConsoleColor.DarkYellow);
+            EscreverLinha("    9 - Doença em tratamento com possibilidade de cura", ConsoleColor.Gray);
+            EscreverLinha("   10 - Em recuperação pós-cirúrgica", ConsoleColor.Gray);
+            EscreverLinha("   11 - Fractura em consolidação", ConsoleColor.Gray);
+            Console.WriteLine();
+
+            int saudeOpc = LerInt("  Opção                   : ", 1, 11);
+
+            p.CategoriaSaude = saudeOpc switch
+            {
+                1  => CategoriasSaude.SemLimitacoes,
+                2  => CategoriasSaude.ProblemaVisao,
+                3  => CategoriasSaude.ProblemaAudicao,
+                4  => CategoriasSaude.DoencaCronica,
+                5  => CategoriasSaude.DeficienciaMotora,
+                6  => CategoriasSaude.IMCForaLimites,
+                7  => CategoriasSaude.TranstornoMentalGrave,
+                8  => CategoriasSaude.DependenciaSubstancias,
+                9  => CategoriasSaude.DoencaEmTratamento,
+                10 => CategoriasSaude.RecuperacaoCirurgica,
+                11 => CategoriasSaude.FracturaConsolidacao,
+                _  => CategoriasSaude.SemLimitacoes
+            };
+
+            p.ClassificacaoSaude = ClassificarSaude(p.CategoriaSaude);
+
+            // Mostrar classificação de saúde obtida
+            Console.WriteLine();
+            string labelSaude = p.ClassificacaoSaude switch
+            {
+                ClassificacaoSaude.Apto              => "✔ APTO",
+                ClassificacaoSaude.InaptoTemporario  => "⚠ INAPTO TEMPORÁRIO — possível adiamento médico (Art. 51.º)",
+                ClassificacaoSaude.InaптоPermanente  => "✖ INAPTO PERMANENTE — isenção total (Art. 48.º)",
+                _                                    => "—"
+            };
+            ConsoleColor corSaude = p.ClassificacaoSaude switch
+            {
+                ClassificacaoSaude.Apto             => ConsoleColor.Green,
+                ClassificacaoSaude.InaptoTemporario => ConsoleColor.Yellow,
+                _                                   => ConsoleColor.Red
+            };
+            Escrever("  Classificação de saúde  : ", ConsoleColor.White);
+            EscreverLinha(labelSaude, corSaude);
+
+            // Ocupação — apenas se apto ou temporário
+            if (p.ClassificacaoSaude != ClassificacaoSaude.InaптоPermanente)
+            {
+                Console.WriteLine();
+                EscreverLinha("  Ocupação Actual:", ConsoleColor.White);
+                EscreverLinha("    1 - Nenhuma / Outra", ConsoleColor.Gray);
+                EscreverLinha("    2 - Estudante do Ensino Superior", ConsoleColor.Gray);
+                EscreverLinha("    3 - Professor em exercício (tempo inteiro)", ConsoleColor.Gray);
+                int ocpOpc = LerInt("  Opção                   : ", 1, 3);
+                p.Ocupacao = ocpOpc switch
+                {
+                    2 => Ocupacao.EstudanteEnsinoSuperior,
+                    3 => Ocupacao.ProfessorAtivo,
+                    _ => Ocupacao.Nenhuma
+                };
+            }
+
+            return p;
+        }
+
+        // ── Motor de avaliação (Lei n.º 1/93) ─────────────────
+        static void Avaliar(Pessoa p)
+        {
+            // ① Isenção permanente por saúde — Art. 48.º (prioridade máxima)
+            if (p.ClassificacaoSaude == ClassificacaoSaude.InaптоPermanente)
+            {
+                p.Resultado = Resultado.IsentoSaudePermanente;
+                p.Descricao = $"ISENTO PERMANENTE — {DescricaoCategoria(p.CategoriaSaude)} | Art. 48.º";
+                return;
+            }
+
+            // ② Inapto temporário — Art. 51.º (adiamento médico, independente de idade)
+            if (p.ClassificacaoSaude == ClassificacaoSaude.InaptoTemporario)
+            {
+                p.Resultado = Resultado.AdiamentoMedicoTemporario;
+                p.Descricao = $"ADIAMENTO MÉDICO — {DescricaoCategoria(p.CategoriaSaude)} | Art. 51.º";
+                return;
+            }
+
+            // A partir daqui: Apto de saúde
+
+            // ── MASCULINO ───────────────────────────────────────
+            if (p.Sexo == Sexo.Masculino)
+            {
+                if (p.Idade < 18 || p.Idade > 45)
+                {
+                    p.Resultado = Resultado.ForaDaIdadeMilitar;
+                    p.Descricao = p.Idade < 18
+                        ? "FORA DA IDADE — Menor de 18 anos | Art. 2.º / 11.º"
+                        : "FORA DA IDADE — Acima dos 45 anos | Art. 2.º";
+                    return;
+                }
+
+                // Adiamentos por ocupação (aplicáveis até 30 anos)
+                if (p.Idade <= 30)
+                {
+                    if (p.Ocupacao == Ocupacao.EstudanteEnsinoSuperior)
+                    {
+                        p.Resultado = Resultado.AdiamentoEstudante;
+                        p.Descricao = "ADIAMENTO — Estudante do Ensino Superior | Art. 49.º";
+                        return;
+                    }
+                    if (p.Ocupacao == Ocupacao.ProfessorAtivo)
+                    {
+                        p.Resultado = Resultado.AdiamentoProfessor;
+                        p.Descricao = "ADIAMENTO — Professor em exercício a tempo inteiro | Art. 50.º";
+                        return;
+                    }
+                }
+
+                if (p.Idade >= 18 && p.Idade < 20)
+                {
+                    p.Resultado = Resultado.AptoVoluntario;
+                    p.Descricao = "APTO (Voluntário) — 18-19 anos; ingresso apenas voluntário | Art. 11.º";
+                    return;
+                }
+                if (p.Idade >= 20 && p.Idade <= 30)
+                {
+                    p.Resultado = Resultado.AptoCumprimentoObrigatorio;
+                    p.Descricao = "APTO — Obrigado a cumprir o Serviço Militar Activo | Art. 2.º / 8.º";
+                    return;
+                }
+                if (p.Idade >= 31 && p.Idade <= 45)
+                {
+                    p.Resultado = Resultado.AptoReserva;
+                    p.Descricao = "APTO (Reserva) — Integra o Serviço Militar da Reserva | Art. 16.º";
+                    return;
+                }
+            }
+
+            // ── FEMININO ────────────────────────────────────────
+            if (p.Sexo == Sexo.Feminino)
+            {
+                if (p.Idade < 20 || p.Idade > 40)
+                {
+                    p.Resultado = Resultado.ForaDaIdadeMilitar;
+                    p.Descricao = p.Idade < 20
+                        ? "FORA DA IDADE — Abaixo dos 20 anos | Art. 2.º nº2"
+                        : "FORA DA IDADE — Acima dos 40 anos | Art. 25.º";
+                    return;
+                }
+                p.Resultado = Resultado.AptoVoluntario;
+                p.Descricao = "APTA (Voluntária) — Ingresso voluntário nas FA | Art. 2.º nº2 / Art. 23.º";
+            }
+        }
+
+        // ── Descrição legível da categoria de saúde ───────────
+        static string DescricaoCategoria(CategoriasSaude c) => c switch
+        {
+            CategoriasSaude.SemLimitacoes          => "Sem limitações",
+            CategoriasSaude.ProblemaVisao           => "Problema de visão",
+            CategoriasSaude.ProblemaAudicao         => "Problema de audição",
+            CategoriasSaude.DoencaCronica           => "Doença crónica",
+            CategoriasSaude.DeficienciaMotora       => "Deficiência motora",
+            CategoriasSaude.IMCForaLimites          => "IMC fora dos limites",
+            CategoriasSaude.TranstornoMentalGrave   => "Transtorno mental grave",
+            CategoriasSaude.DependenciaSubstancias  => "Dependência de substâncias",
+            CategoriasSaude.DoencaEmTratamento      => "Doença em tratamento",
+            CategoriasSaude.RecuperacaoCirurgica    => "Recuperação pós-cirúrgica",
+            CategoriasSaude.FracturaConsolidacao    => "Fractura em consolidação",
+            _                                       => "—"
+        };
+
+        // ── Cor por resultado ──────────────────────────────────
+        static ConsoleColor CorResultado(Resultado r) => r switch
+        {
+            Resultado.AptoCumprimentoObrigatorio => ConsoleColor.Green,
+            Resultado.AptoVoluntario             => ConsoleColor.Cyan,
+            Resultado.AptoReserva                => ConsoleColor.DarkGreen,
+            Resultado.AdiamentoEstudante         => ConsoleColor.Yellow,
+            Resultado.AdiamentoProfessor         => ConsoleColor.Yellow,
+            Resultado.AdiamentoMedicoTemporario  => ConsoleColor.DarkYellow,
+            Resultado.IsentoSaudePermanente      => ConsoleColor.Red,
+            Resultado.ForaDaIdadeMilitar         => ConsoleColor.DarkGray,
+            _                                    => ConsoleColor.White
+        };
+
+        // ── Relatório individual ───────────────────────────────
+        static void RelatorioIndividual(Pessoa p, int num)
+        {
+            Console.WriteLine();
+            Separador('─', 65);
+            EscreverLinha($"  Pessoa #{num}", ConsoleColor.DarkCyan);
+            Separador('─', 65);
+
+            EscreverLinha($"  Nome                    : {p.Nome}", ConsoleColor.White);
+            EscreverLinha($"  Sexo                    : {p.Sexo}", ConsoleColor.White);
+            EscreverLinha($"  Idade                   : {p.Idade} anos", ConsoleColor.White);
+
+            ConsoleColor corClassif = p.ClassificacaoSaude switch
+            {
+                ClassificacaoSaude.Apto             => ConsoleColor.Green,
+                ClassificacaoSaude.InaptoTemporario => ConsoleColor.Yellow,
+                _                                   => ConsoleColor.Red
+            };
+            EscreverLinha($"  Condição de saúde       : {DescricaoCategoria(p.CategoriaSaude)}", ConsoleColor.White);
+            Escrever(     $"  Classificação de saúde  : ", ConsoleColor.White);
+            EscreverLinha($"{p.ClassificacaoSaude}", corClassif);
+
+            string ocup = p.Ocupacao switch
+            {
+                Ocupacao.EstudanteEnsinoSuperior => "Estudante Ens. Superior",
+                Ocupacao.ProfessorAtivo          => "Professor em Exercício",
+                _                                => "Nenhuma / Outra"
+            };
+            EscreverLinha($"  Ocupação                : {ocup}", ConsoleColor.White);
+
+            Escrever(     $"  Resultado               : ", ConsoleColor.White);
+            EscreverLinha(p.Descricao, CorResultado(p.Resultado));
+        }
+
+        // ── Totais finais ──────────────────────────────────────
+        static void MostrarTotais(List<Pessoa> lista)
+        {
+            Console.WriteLine();
+            Separador();
+            EscreverLinha("  RELATÓRIO FINAL — TOTAIS", ConsoleColor.Cyan);
+            Separador();
+
+            int obrig = 0, volunt = 0, reserva = 0;
+            int adiEst = 0, adiProf = 0, adiMed = 0;
+            int isentoSaude = 0, foraIdade = 0;
+
+            // Contadores de condições de saúde
+            int[] contSaude = new int[11]; // índice = (int)CategoriasSaude
+
+            foreach (var p in lista)
+            {
+                contSaude[(int)p.CategoriaSaude]++;
+                switch (p.Resultado)
+                {
+                    case Resultado.AptoCumprimentoObrigatorio: obrig++;       break;
+                    case Resultado.AptoVoluntario:             volunt++;       break;
+                    case Resultado.AptoReserva:                reserva++;      break;
+                    case Resultado.AdiamentoEstudante:         adiEst++;       break;
+                    case Resultado.AdiamentoProfessor:         adiProf++;      break;
+                    case Resultado.AdiamentoMedicoTemporario:  adiMed++;       break;
+                    case Resultado.IsentoSaudePermanente:      isentoSaude++;  break;
+                    case Resultado.ForaDaIdadeMilitar:         foraIdade++;    break;
+                }
+            }
+
+            void Linha(string label, int val, ConsoleColor cor)
+            {
+                Escrever($"  {label,-45}: ", ConsoleColor.White);
+                EscreverLinha($"{val,4}", cor);
+            }
+
+            Linha("Total de pessoas avaliadas", lista.Count, ConsoleColor.White);
+            Console.WriteLine();
+
+            EscreverLinha("  ── Situação Militar ─────────────────────────────────────", ConsoleColor.DarkCyan);
+            Linha("Aptos — Serviço Obrigatório    (Art. 8.º)",  obrig,      ConsoleColor.Green);
+            Linha("Aptos — Voluntários            (Art. 11.º)", volunt,     ConsoleColor.Cyan);
+            Linha("Aptos — Reserva                (Art. 16.º)", reserva,    ConsoleColor.DarkGreen);
+            Linha("Adiamento — Estudantes         (Art. 49.º)", adiEst,     ConsoleColor.Yellow);
+            Linha("Adiamento — Professores        (Art. 50.º)", adiProf,    ConsoleColor.Yellow);
+            Linha("Adiamento — Médico Temporário  (Art. 51.º)", adiMed,     ConsoleColor.DarkYellow);
+            Linha("Isentos — Inapto Permanente    (Art. 48.º)", isentoSaude,ConsoleColor.Red);
+            Linha("Fora da Idade Militar",                      foraIdade,  ConsoleColor.DarkGray);
+
+            Console.WriteLine();
+            EscreverLinha("  ── Distribuição por Condição de Saúde ──────────────────", ConsoleColor.DarkCyan);
+
+            var categorias = (CategoriasSaude[])Enum.GetValues(typeof(CategoriasSaude));
+            foreach (var cat in categorias)
+            {
+                int idx = (int)cat;
+                if (contSaude[idx] == 0) continue;
+
+                ConsoleColor corCat = cat switch
+                {
+                    CategoriasSaude.SemLimitacoes                          => ConsoleColor.Green,
+                    CategoriasSaude.DoencaEmTratamento   or
+                    CategoriasSaude.RecuperacaoCirurgica or
+                    CategoriasSaude.FracturaConsolidacao                   => ConsoleColor.DarkYellow,
+                    _                                                       => ConsoleColor.Red
+                };
+                Linha($"  {DescricaoCategoria(cat)}", contSaude[idx], corCat);
+            }
+
+            // Lista resumida
+            Console.WriteLine();
+            Separador();
+            EscreverLinha("  LISTA RESUMIDA", ConsoleColor.Cyan);
+            Separador('─', 65);
+            EscreverLinha(
+                $"  {"#",-3} {"Nome",-18} {"Sx",-5} {"Id",3}  {"Saúde",-24} {"Situação"}",
+                ConsoleColor.DarkCyan);
+            Separador('─', 65);
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                var p    = lista[i];
+                string sx  = p.Sexo == Sexo.Masculino ? "M" : "F";
+                string saud = DescricaoCategoria(p.CategoriaSaude);
+                if (saud.Length > 22) saud = saud[..22] + "..";
+
+                string sit = p.Resultado switch
+                {
+                    Resultado.AptoCumprimentoObrigatorio => "Obrigatório",
+                    Resultado.AptoVoluntario             => "Voluntário",
+                    Resultado.AptoReserva                => "Reserva",
+                    Resultado.AdiamentoEstudante         => "Adi-Estudante",
+                    Resultado.AdiamentoProfessor         => "Adi-Professor",
+                    Resultado.AdiamentoMedicoTemporario  => "Adi-Médico",
+                    Resultado.IsentoSaudePermanente      => "Isento",
+                    Resultado.ForaDaIdadeMilitar         => "Fora Idade",
+                    _                                    => "—"
+                };
+
+                Escrever($"  {i+1,-3} {p.Nome,-18} {sx,-5} {p.Idade,3}  {saud,-24} ", ConsoleColor.White);
+                EscreverLinha(sit, CorResultado(p.Resultado));
+            }
+
+            Separador();
+        }
+
+        // ── Main ───────────────────────────────────────────────
+        static void Main()
+        {
+            Cabecalho();
+
+            EscreverLinha("  Quantas pessoas deseja avaliar?", ConsoleColor.White);
+            int n = LerInt("  Número de pessoas      : ", 1, 9999);
+
+            var lista = new List<Pessoa>();
+
+            for (int i = 1; i <= n; i++)
+            {
+                Cabecalho();
+                EscreverLinha($"  A registar pessoa {i} de {n}", ConsoleColor.DarkGray);
+
+                Pessoa p = RecolherDados(i, n);
+                Avaliar(p);
+                lista.Add(p);
+
+                Console.WriteLine();
+                Escrever("  ► Resultado Final : ", ConsoleColor.White);
+                EscreverLinha(p.Descricao, CorResultado(p.Resultado));
+
+                if (i < n)
+                {
+                    Console.WriteLine();
+                    EscreverLinha("  Prima ENTER para a próxima pessoa...", ConsoleColor.DarkGray);
+                    Console.ReadLine();
+                }
+            }
+
+            // Relatório detalhado
+            Console.WriteLine();
+            EscreverLinha("  Prima ENTER para o relatório detalhado...", ConsoleColor.DarkGray);
+            Console.ReadLine();
+
+            Cabecalho();
+            EscreverLinha("  RELATÓRIO DETALHADO", ConsoleColor.Cyan);
+            for (int i = 0; i < lista.Count; i++)
+                RelatorioIndividual(lista[i], i + 1);
+
+            // Totais
+            Console.WriteLine();
+            EscreverLinha("  Prima ENTER para os totais...", ConsoleColor.DarkGray);
+            Console.ReadLine();
+
+            Cabecalho();
+            MostrarTotais(lista);
+
+            Console.WriteLine();
+            EscreverLinha("  Programa concluído. Prima ENTER para sair.", ConsoleColor.DarkGray);
+            Console.ReadLine();
+        }
+    }
+}
+
+
+
+1ª Fase: Exame de Rastreio Médico
+Serão avaliados:
+Medição de peso e altura
+Pressão arterial
+Exames de audição e visão
+Avaliação cardíaca e respiratória
+Avaliação de deficiência física
+Exame físico geral
+
+2ª Fase: Exames Psicotécnicos
+Os candidatos serão submetidos a 5 a 6 etapas.
+Atenção: Todas as fases são eliminatórias. A reprovação em qualquer uma implica a exclusão do processo.
+
+    // Homem: 1,70 & Mulher: 1,65
+
+
+        // public static void ResumoDados(Pessoa candidato)
+    // {
+    //     Console.Clear();
+    //     Console.ForegroundColor = ConsoleColor.Green;
+    //     Console.WriteLine($"{" RESUMO DO CANDIDATO ",-60}");
+    //     Console.ResetColor();
+
+    //     string  data = candidato.DataNascimento.ToString("dd/MM/yyyy");
+    //     int idade = DateTime.Now.Year-candidato.DataNascimento.Year;
+
+
+    //     Console.WriteLine("+--------------------------------------+--------------------------------+");
+    //     Console.WriteLine($"| {"Campo",-36} | {"Valor",-30} |");
+    //     Console.WriteLine("+--------------------------------------+--------------------------------+");
+    //     Console.WriteLine($"| {"Nome",-36} | {candidato.Nome,-30} |");
+    //     Console.WriteLine($"| {"Género",-36} | {candidato.Sexo,-30} |");
+    //     Console.WriteLine($"| {"Data de Nascimento",-36} | {data,-30} |");
+    //     Console.WriteLine($"| {"Idade",-36} | {idade,-30} |");
+    //     Console.WriteLine($"| {"Bilhete de Identidade",-36} | {candidato.BilheteIdentidade,-30} |");
+    //     Console.WriteLine("+--------------------------------------+--------------------------------+");
+
+    //     Console.Write("\nPrima qualquer tecla para continuar...");
+    //     Console.ReadKey();
+    // }
