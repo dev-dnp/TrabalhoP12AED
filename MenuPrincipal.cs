@@ -40,7 +40,7 @@ namespace TrabalhoP12AED
                         Exercicio4ArvoreDeBuscaBinaria.Executar();
                         break;
                     case "5": 
-                        Exercicio5ServicoMilitar.Executar();
+                        Exercicio5ServicoMilitarObrigatorio.Executar();
                         break;
                     case "0": 
                         Console.Clear();

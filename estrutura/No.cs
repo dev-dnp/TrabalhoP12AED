@@ -1,15 +1,16 @@
-namespace TrabalhoP12AED.estrutura;
-
-public class No
+namespace TrabalhoP12AED.estrutura
 {
-    public char Valor;
-    public No Esquerdo;
-    public No Direito;
-
-    public No(char valor)
+    public class No
     {
-        Valor = valor;
-        Esquerdo = null;
-        Direito = null;
+        public char Valor;
+        public No Esquerdo;
+        public No Direito;
+
+        public No(char valor)
+        {
+            Valor = valor;
+            Esquerdo = null;
+            Direito = null;
+        }
     }
 }

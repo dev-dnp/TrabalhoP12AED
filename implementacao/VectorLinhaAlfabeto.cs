@@ -1,6 +1,5 @@
 namespace TrabalhoP12AED.implementacao
 {
-
     public class VectorLinha()
     {
         public static string LetrasDoAlfabeto(string caixa = "caixa-baixa")

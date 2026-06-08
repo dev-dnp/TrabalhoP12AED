@@ -1,0 +1,13 @@
+Criar a árvore binária de busca com raiz definida como d.
+Inserir manualmente os nós seguintes respeitando a estrutura:
+b e f como filhos de d
+a e c como filhos de b
+e e g como filhos de f
+Exibir a estrutura da árvore organizada.
+Solicitar ao utilizador uma letra para pesquisa.
+Comparar o valor com o nó atual:
+Se for igual, retornar o nó encontrado.
+Se for menor, seguir para a esquerda.
+Se for maior, seguir para a direita.
+Repetir o processo até encontrar o elemento ou chegar a null.
+Exibir o resultado da pesquisa.

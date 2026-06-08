@@ -1,8 +1,6 @@
-
 using TrabalhoP12AED.estrutura;
-
-namespace TrabalhoP12AED.implementacao;
-    
+namespace TrabalhoP12AED.implementacao
+{
     public class ArvoreDeBuscaBinaria
     {
         public No Raiz = null;
@@ -26,7 +24,6 @@ namespace TrabalhoP12AED.implementacao;
         {
             if(raiz == null)
                 return new No (valor);
-
 
             if (valor < raiz.Valor)
             {
@@ -54,7 +51,6 @@ namespace TrabalhoP12AED.implementacao;
             {
                 return BuscarRec(valor, no.Direito);
             }
-
         }
 
         public void ExibirEmOrdem(No raiz)
@@ -66,5 +62,5 @@ namespace TrabalhoP12AED.implementacao;
                 ExibirEmOrdem(raiz.Direito);
             }
         }
-
     }
+}
