@@ -5,6 +5,9 @@ namespace TrabalhoP12AED.exercicios
 {
     public class Exercicio5ServicoMilitarObrigatorio
     {
+        // Corrigido: instância em vez de estático, para evitar estado partilhado entre execuções
+        private int _nrAprovados = 0;
+        private int _nrReprovados = 0;
 
         public List<Pessoa> Candidatos = new List<Pessoa>();
         public List<string> ErrosEncontrados = new List<string>();
@@ -12,14 +15,16 @@ namespace TrabalhoP12AED.exercicios
         public static void Executar()
         {
             Console.Clear();
-            
+
             int n;
 
             while (true)
             {
-                Console.Write("\tInsira o número de candidatos a registar:");
+                Console.Write("\tInsira o número de candidatos a registar: ");
 
-                if (int.TryParse(Console.ReadLine(), out n) && n > 0)  break;
+                string entrada = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                if (int.TryParse(entrada, out n) && n > 0) break;
 
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("\tErro: informe um número inteiro positivo.");
@@ -32,26 +37,26 @@ namespace TrabalhoP12AED.exercicios
 
             for (int i = 0; i < n; i++)
             {
-                Pessoa Candidato = new Pessoa();
+                Pessoa candidato = new Pessoa();
                 Console.Clear();
 
-                // Inserir o nome do candidato
+                // Nome
                 while (true)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\tCANDIDATO {i+1}");
+                    Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
 
                     Utilitario.LinhaSeparadora();
 
-                    Console.Write($"\tInforme o nome completo: ");
-                    
-                    string nomeInserido = Console.ReadLine().Trim();
+                    Console.Write("\tInforme o nome completo: ");
+
+                    string nomeInserido = Console.ReadLine()?.Trim() ?? string.Empty;
 
                     if (!string.IsNullOrWhiteSpace(nomeInserido))
                     {
-                        Candidato.Nome = nomeInserido;
+                        candidato.Nome = nomeInserido;
                         break;
                     }
 
@@ -59,27 +64,25 @@ namespace TrabalhoP12AED.exercicios
                     Console.Write("\tErro: informe um nome válido.");
                     Console.ResetColor();
                     Console.ReadKey();
-                    Console.Clear();
                 }
 
-
-                // Inserir o número do bilhete de identidade
+                // Bilhete de Identidade
                 while (true)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\tCANDIDATO {i+1}");
+                    Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
 
                     Utilitario.LinhaSeparadora();
 
-                    Console.Write($"\tInforme o número do bilhete de identidade: ");
+                    Console.Write("\tInforme o número do bilhete de identidade: ");
 
-                    string bilheteInserido = Console.ReadLine().Trim();
+                    string bilheteInserido = Console.ReadLine()?.Trim() ?? string.Empty;
 
                     if (!string.IsNullOrWhiteSpace(bilheteInserido))
                     {
-                        Candidato.BilheteIdentidade = bilheteInserido;
+                        candidato.BilheteIdentidade = bilheteInserido;
                         break;
                     }
 
@@ -87,85 +90,86 @@ namespace TrabalhoP12AED.exercicios
                     Console.Write("\tErro: informe um número válido no formato: 000000000AB000");
                     Console.ResetColor();
                     Console.ReadKey();
-                    Console.Clear();
                 }
 
-                // Inserir a data de nascimento
+                // Data de Nascimento
                 while (true)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\tCANDIDATO {i+1}");
+                    Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
-                    
+
                     Utilitario.LinhaSeparadora();
-                    
 
-                    DateTime dataNascimentoCandidato;
+                    Console.Write("\tInforme a data de nascimento (ex: 01-04-2006): ");
 
-                    Console.Write($"\tInforme a data de nascimento: ");
+                    string entradaData = Console.ReadLine()?.Trim() ?? string.Empty;
 
-                    if (DateTime.TryParse(Console.ReadLine(), out dataNascimentoCandidato)) {
-                        Candidato.DataNascimento = dataNascimentoCandidato;
+                    if (DateTime.TryParse(entradaData, out DateTime dataNascimento))
+                    {
+                        candidato.DataNascimento = dataNascimento;
                         break;
                     }
 
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\tErro: informe uma data válida no formato 01-04-2026");
+                    Console.Write("\tErro: informe uma data válida no formato 01-04-2006.");
                     Console.ResetColor();
                     Console.ReadKey();
-                    Console.Clear();
                 }
 
-                // Inserir o género
-
+                // Género — removida variável DateTime declarada por engano aqui
                 while (true)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\tCANDIDATO {i+1}");
+                    Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
 
                     Utilitario.LinhaSeparadora();
-
-
-                    DateTime dataNascimentoCandidato;
 
                     Console.WriteLine("\t1 - Masculino");
                     Console.WriteLine("\t2 - Feminino");
                     Console.Write("\tInforme o género: ");
 
-                    string opcao = Console.ReadLine().Trim();
+                    string opcao = Console.ReadLine()?.Trim() ?? string.Empty;
 
-                    if(opcao == "1")
+                    if (opcao == "1")
                     {
-                        Candidato.Sexo = ESexo.Masculino;
+                        candidato.Sexo = ESexo.Masculino;
                         break;
-                    } else if(opcao == "2")
+                    }
+                    else if (opcao == "2")
                     {
-                        Candidato.Sexo = ESexo.Feminino;
+                        candidato.Sexo = ESexo.Feminino;
                         break;
-                    } 
+                    }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("\tErro: informe um genéro válido");
+                        Console.Write("\tErro: informe um género válido (1 ou 2).");
                         Console.ResetColor();
                         Console.ReadKey();
-                        Console.Clear();
-                    } 
-                
+                    }
                 }
 
+                // Saúde
                 Saude saude = new Saude();
 
-                // Altura
                 while (true)
                 {
                     Console.Clear();
-                    Console.Write("\tInforme a altura (em metros): ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"\tCANDIDATO {i + 1}");
+                    Console.ResetColor();
 
-                    if (double.TryParse(Console.ReadLine(), out double altura) && altura > 0)
+                    Utilitario.LinhaSeparadora();
+
+                    Console.Write("\tInforme a altura (em metros, ex: 1.75): ");
+
+                    string entradaAltura = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                    if (double.TryParse(entradaAltura, out double altura) && altura > 0)
                     {
                         saude.Altura = altura;
                         break;
@@ -178,24 +182,20 @@ namespace TrabalhoP12AED.exercicios
                 }
 
                 saude.ResExameRastreioMedico = PerguntarSimNao("Passou no exame de rastreio médico");
+                saude.ResExamesPsicotecnicos  = PerguntarSimNao("Passou nos exames psicotécnicos");
+                saude.ResProvaAptidaoFisica   = PerguntarSimNao("Passou na prova de aptidão física");
+                saude.TemAntecedentesGraves   = PerguntarSimNao("Possui antecedentes graves");
 
-                saude.ResExamesPsicotecnicos = PerguntarSimNao("Passou nos exames psicotécnicos");
+                candidato.Saude = saude;
 
-                saude.ResProvaAptidaoFisica = PerguntarSimNao("Passou na prova de aptidão física");
+                ResumoDados(candidato);
 
-                saude.TemAntecedentesGraves = PerguntarSimNao("Possui antecedentes graves");
-
-                Candidato.Saude = saude;
-
-                ResumoDados(Candidato);
-
-                candidatos[i] = Candidato;
+                candidatos[i] = candidato;
             }
 
             ExibirListaCandidatos(candidatos);
 
             Console.ReadKey();
-            return;
         }
 
         public static bool PerguntarSimNao(string pergunta)
@@ -204,13 +204,10 @@ namespace TrabalhoP12AED.exercicios
             {
                 Console.Write($"\t{pergunta} (S/N): ");
 
-                string resposta = Console.ReadLine().Trim().ToLower();
+                string resposta = Console.ReadLine()?.Trim().ToLower() ?? string.Empty;
 
-                if (resposta == "s")
-                    return true;
-
-                if (resposta == "n")
-                    return false;
+                if (resposta == "s") return true;
+                if (resposta == "n") return false;
 
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\tErro: responda apenas S ou N.");
@@ -225,12 +222,8 @@ namespace TrabalhoP12AED.exercicios
             string data = candidato.DataNascimento.ToString("dd/MM/yyyy");
 
             int idade = DateTime.Now.Year - candidato.DataNascimento.Year;
-
-            if (candidato.DataNascimento.Date >
-                DateTime.Today.AddYears(-idade))
-            {
+            if (candidato.DataNascimento.Date > DateTime.Today.AddYears(-idade))
                 idade--;
-            }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\tRESUMO DO CANDIDATO");
@@ -239,7 +232,6 @@ namespace TrabalhoP12AED.exercicios
             Utilitario.LinhaSeparadora();
 
             Console.WriteLine("\n\tDADOS PESSOAIS\n");
-
             Console.WriteLine($"\tNome..................: {candidato.Nome}");
             Console.WriteLine($"\tGénero................: {candidato.Sexo}");
             Console.WriteLine($"\tData de Nascimento....: {data}");
@@ -247,7 +239,6 @@ namespace TrabalhoP12AED.exercicios
             Console.WriteLine($"\tBilhete de Identidade.: {candidato.BilheteIdentidade}");
 
             Console.WriteLine("\n\tDADOS DE SAÚDE\n");
-
             Console.WriteLine($"\tAltura................: {candidato.Saude.Altura:F2} m");
             Console.WriteLine($"\tRastreio Médico.......: {(candidato.Saude.ResExameRastreioMedico ? "Apto" : "Não Apto")}");
             Console.WriteLine($"\tExames Psicotécnicos..: {(candidato.Saude.ResExamesPsicotecnicos ? "Apto" : "Não Apto")}");
@@ -262,79 +253,100 @@ namespace TrabalhoP12AED.exercicios
 
         public static void ExibirListaCandidatos(Pessoa[] candidatos)
         {
-            Console.Clear();
+            // Contadores locais, calculados ANTES de exibir o título
+            int nrAprovados  = 0;
+            int nrReprovados = 0;
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\tLISTA DE CANDIDATOS");
-            Console.ResetColor();
-
-            Utilitario.LinhaSeparadora();
+            // Pré-calcular resultados para mostrar totais correctos no cabeçalho
+            var avaliacoes = new (AvaliarCandidato avaliacao, bool apto, List<string> erros)[candidatos.Length];
 
             for (int i = 0; i < candidatos.Length; i++)
             {
-                Pessoa candidato = candidatos[i];
-                
-                AvaliarCandidato avaliacao = new AvaliarCandidato(candidato);
+                var avaliacao = new AvaliarCandidato(candidatos[i]);
+                bool apto     = avaliacao.Resultado();
+                var erros     = avaliacao.Erros;
 
-                Console.WriteLine($"\n\tCANDIDATO {i + 1}");
+                avaliacoes[i] = (avaliacao, apto, erros);
+
+                if (apto) nrAprovados++;
+                else      nrReprovados++;
+            }
+
+            ExibirTituloResumoDosDados();
+
+            Console.WriteLine($"\tTotais aprovados : {nrAprovados}");
+            Console.WriteLine($"\tTotais reprovados: {nrReprovados}");
+
+            for (int i = 0; i < avaliacoes.Length; i++)
+            {
+                var (avaliacao, apto, erros) = avaliacoes[i];
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"\n\tCANDIDATO {i + 1}\n");
+                Console.ResetColor();
 
                 Console.WriteLine($"\tNome                  : {avaliacao.Candidato.Nome}");
                 Console.WriteLine($"\tGénero                : {avaliacao.Candidato.Sexo}");
                 Console.WriteLine($"\tData de Nascimento    : {avaliacao.Candidato.DataNascimento:dd/MM/yyyy}");
                 Console.WriteLine($"\tBilhete de Identidade : {avaliacao.Candidato.BilheteIdentidade}");
-
                 Console.WriteLine();
-
                 Console.WriteLine($"\tAltura                : {avaliacao.Candidato.Saude.Altura:F2} m");
                 Console.WriteLine($"\tRastreio Médico       : {(avaliacao.Candidato.Saude.ResExameRastreioMedico ? "Apto" : "Não Apto")}");
                 Console.WriteLine($"\tExames Psicotécnicos  : {(avaliacao.Candidato.Saude.ResExamesPsicotecnicos ? "Apto" : "Não Apto")}");
                 Console.WriteLine($"\tProva Física          : {(avaliacao.Candidato.Saude.ResProvaAptidaoFisica ? "Apto" : "Não Apto")}");
                 Console.WriteLine($"\tAntecedentes Graves   : {(avaliacao.Candidato.Saude.TemAntecedentesGraves ? "Sim" : "Não")}");
 
-                bool apto = avaliacao.Resultado();
-                var erros = avaliacao.Erros;
-
                 Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write($"\tRESULTADO FINAL       : ");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\tRESULTADO FINAL       : ");
                 Console.ResetColor();
 
-                if(apto)
+                if (apto)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"APROVADO");
+                    Console.WriteLine("APROVADO");
                     Console.ResetColor();
-                }  
+                }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"REPROVADO");
+                    Console.WriteLine("REPROVADO");
                     Console.ResetColor();
 
-                    Console.WriteLine($"\tMotivos: ");
-
+                    Console.WriteLine("\tMotivos:");
                     Console.ForegroundColor = ConsoleColor.Red;
-
-                    for(int indice = 0; indice < erros.Count; indice++)
-                    {
-                        Console.WriteLine($"\t  Erro {indice + 1}: {erros[indice]}");
-                    }
-
+                    for (int j = 0; j < erros.Count; j++)
+                        Console.WriteLine($"\t  Erro {j + 1}: {erros[j]}");
                     Console.ResetColor();
+                }
 
-                } 
-                
                 Utilitario.LinhaSeparadora();
 
-                if((i+1)%5 == 0 && (i+1) != candidatos.Length &&  i != 0)
+                // Pausa a cada 5 candidatos, excepto após o último
+                bool ehMultiploDe5 = (i + 1) % 5 == 0;
+                bool naoEOUltimo   = (i + 1) < candidatos.Length;
+
+                if (ehMultiploDe5 && naoEOUltimo)
                 {
-                    Console.Write("\tPrima ENTER para continuar a ver a lista");
-                    Console.ReadKey();
+                    Console.Write("\tPrima ENTER para continuar a ver a lista...");
+                    Console.ReadLine();
                 }
             }
 
-                Console.Write("\n\tPrima qualquer tecla para sair...");
+            Console.Write("\n\tPrima qualquer tecla para sair...");
             Console.ReadKey();
+        }
+
+        private static void ExibirTituloResumoDosDados()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t╔═══════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("\t║                                RESUMO FINAL                               ║");
+            Console.WriteLine("\t╚═══════════════════════════════════════════════════════════════════════════╝");
+            Utilitario.LinhaSeparadora();
+            Console.ResetColor();
+            Console.WriteLine();
         }
     }
 }

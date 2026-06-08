@@ -44,7 +44,6 @@ namespace TrabalhoP12AED
                         break;
                     case "0": 
                         Console.Clear();
-                        Console.WriteLine("Saindo da aplicação...");
                         Environment.Exit(0);
                         break;
                     default:

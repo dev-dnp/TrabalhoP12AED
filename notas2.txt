@@ -1,13 +1,1 @@
-Criar a árvore binária de busca com raiz definida como d.
-Inserir manualmente os nós seguintes respeitando a estrutura:
-b e f como filhos de d
-a e c como filhos de b
-e e g como filhos de f
-Exibir a estrutura da árvore organizada.
-Solicitar ao utilizador uma letra para pesquisa.
-Comparar o valor com o nó atual:
-Se for igual, retornar o nó encontrado.
-Se for menor, seguir para a esquerda.
-Se for maior, seguir para a direita.
-Repetir o processo até encontrar o elemento ou chegar a null.
-Exibir o resultado da pesquisa.
+5.1.1 Descrição narrativaInícioSolicitar ao utilizador o número $N$ de candidatos a registar.Validar se o valor inserido é um inteiro positivo; repetir até ser válido.Inicializar um vetor de Pessoa com tamanho $N$.Para cada candidato de $1$ até $N$:4.1. Solicitar e validar o Nome Completo.4.2. Solicitar e validar o Bilhete de Identidade (BI).4.3. Solicitar e validar a Data de Nascimento (converter para DateTime).4.4. Selecionar o Género (1 - Masculino, 2 - Feminino).4.5. Solicitar a Altura e os resultados dos exames (Rastreio, Psicotécnicos, Prova Física, Antecedentes).4.6. Gerar e exibir o resumo dos dados recolhidos para confirmação.Percorrer o vetor de candidatos e, para cada um, instanciar a classe de avaliação:5.1. Calcular a idade exata com base na data atual.5.2. Verificar critérios de idade ($20 \le \text{idade} \le 45$).5.3. Verificar critérios de altura conforme o género ($\ge 1.70\text{m}$ para homens, $\ge 1.65\text{m}$ para mulheres).5.4. Validar exames médicos e ausência de antecedentes graves.5.5. Se houver inconformidades, adicionar à lista de erros e marcar como "Reprovado". Caso contrário, marcar como "Aprovado".Contabilizar o total de Aprovados e o total de Reprovados.Exibir o painel de Resumo Final com os totais e a ficha individual de cada candidato (com os seus motivos de reprovação, caso se aplique).Fim
