@@ -1,12 +1,12 @@
-
 using TrabalhoP12AED.estrutura;
 
 namespace TrabalhoP12AED.implementacao
 {
-    public enum ESexo {
+    public enum ESexo 
+    {
         Masculino = 1, 
         Feminino
-    };
+    }
 
     public class Saude
     {
@@ -25,7 +25,10 @@ namespace TrabalhoP12AED.implementacao
         public Saude Saude {get; set;}
         public string BilheteIdentidade {get; set;}
     }
+}
 
+namespace TrabalhoP12AED.implementacao
+{
     public class AvaliarCandidato
     {
         public Pessoa Candidato { get; set; }
@@ -93,5 +96,4 @@ namespace TrabalhoP12AED.implementacao
             return Apto;
         }
     }
-
 }

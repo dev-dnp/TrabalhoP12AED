@@ -6,8 +6,7 @@ class Program
     static void Main(string[] args)
     {
       
-        // ServicoMilitarObrigatorio.Avaliar();
-        // CapaDoProjeto.Exibir();
+        CapaDoProjeto.Exibir();
         MenuPrincipal.Executar();
     }
 

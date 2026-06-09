@@ -14,12 +14,48 @@ namespace TrabalhoP12AED.exercicios
 
         public static void Executar()
         {
+            while(true)
+            {
+                Console.Clear();
+                ExibirCabecalho();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n\tESCOLHA UMA OPÇÃO:\n");
+                Console.ResetColor();
+
+                Console.WriteLine("\t 1 - Registar");
+                Console.WriteLine("\t 0 - Sair");
+                
+                Console.Write("\n\n\tEscolha uma opção: ");
+
+                string opcao = Console.ReadLine().Trim();
+
+                switch(opcao)
+                {
+                    case "1":
+                        InsercaoServicoMilitar();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("\n\tOpção inválida!");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
+        public static void InsercaoServicoMilitar()
+        {
             Console.Clear();
 
             int n;
 
             while (true)
             {
+                ExibirCabecalho();
                 Console.Write("\tInsira o número de candidatos a registar: ");
 
                 string entrada = Console.ReadLine()?.Trim() ?? string.Empty;
@@ -43,7 +79,7 @@ namespace TrabalhoP12AED.exercicios
                 // Nome
                 while (true)
                 {
-                    Console.Clear();
+                    ExibirCabecalho();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
@@ -69,7 +105,7 @@ namespace TrabalhoP12AED.exercicios
                 // Bilhete de Identidade
                 while (true)
                 {
-                    Console.Clear();
+                    ExibirCabecalho();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
@@ -95,7 +131,7 @@ namespace TrabalhoP12AED.exercicios
                 // Data de Nascimento
                 while (true)
                 {
-                    Console.Clear();
+                    ExibirCabecalho();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
@@ -121,7 +157,7 @@ namespace TrabalhoP12AED.exercicios
                 // Género — removida variável DateTime declarada por engano aqui
                 while (true)
                 {
-                    Console.Clear();
+                    ExibirCabecalho();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
@@ -158,7 +194,7 @@ namespace TrabalhoP12AED.exercicios
 
                 while (true)
                 {
-                    Console.Clear();
+                    ExibirCabecalho();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tCANDIDATO {i + 1}");
                     Console.ResetColor();
@@ -195,13 +231,13 @@ namespace TrabalhoP12AED.exercicios
 
             ExibirListaCandidatos(candidatos);
 
-            Console.ReadKey();
         }
 
         public static bool PerguntarSimNao(string pergunta)
         {
             while (true)
             {
+                ExibirCabecalho();
                 Console.Write($"\t{pergunta} (S/N): ");
 
                 string resposta = Console.ReadLine()?.Trim().ToLower() ?? string.Empty;
@@ -212,6 +248,7 @@ namespace TrabalhoP12AED.exercicios
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\tErro: responda apenas S ou N.");
                 Console.ResetColor();
+                Console.Read();
             }
         }
 
@@ -345,6 +382,20 @@ namespace TrabalhoP12AED.exercicios
             Console.WriteLine("\t║                                RESUMO FINAL                               ║");
             Console.WriteLine("\t╚═══════════════════════════════════════════════════════════════════════════╝");
             Utilitario.LinhaSeparadora();
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        private static void ExibirCabecalho()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t╔════════════════════════════════════════════════════════╗");
+            Console.WriteLine("\t║              SERVIÇO MILITAR OBRIGATÓRIO               ║");
+            Console.WriteLine("\t╚════════════════════════════════════════════════════════╝");
+            
+            Utilitario.LinhaSeparadora();
+
             Console.ResetColor();
             Console.WriteLine();
         }
